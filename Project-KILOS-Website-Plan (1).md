@@ -28,7 +28,7 @@ This document outlines the development milestones, feature requirements, and tec
 ## File Structure
 
 ```
-KILOS-WEBSITE-PROJECT/
+KILOS/
 ├── navigation/
 │   ├── abouthypertension.html
 │   ├── bptracker.html
