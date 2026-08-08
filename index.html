@@ -49,13 +49,18 @@
      first (e.g. a QR code pointed straight at #/tracker). -->
 <div id="welcome-modal-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-on-surface/40 backdrop-blur-sm hidden">
   <div class="bg-surface p-8 rounded-xl shadow-xl max-w-[400px] w-[90%] flex flex-col gap-6 border border-outline-variant">
-    <div class="flex flex-col gap-2">
-      <h2 class="font-headline-md text-headline-md text-on-surface">Welcome to Project K.I.L.O.S.</h2>
-      <p class="font-body-md text-on-surface-variant">Magandang araw! Let us know your name so we can personalize your experience and greet you on your BP Tracker.</p>
-    </div>
+  <div class="flex flex-col gap-2">
+    <h2 class="font-headline-md text-headline-md text-center text-on-surface">Welcome to K.I.L.O.S.</h2>
+    <p class="font-body-md text-on-surface-variant"><span data-modal-greeting>Magandang araw!</span> Let us know your name so we can greet you.</p>
+  </div>
     <div class="flex flex-col gap-2">
       <label for="user-name-input" class="font-label-caps text-label-caps text-primary">Your Name</label>
-      <input type="text" id="user-name-input" placeholder="e.g. Juan" class="w-full p-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all   bg-surface-container-low">
+      <div class="relative">
+        <input type="text" id="user-name-input" placeholder="e.g. Juan" class="w-full p-3 pr-10 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all   bg-surface-container-low">
+        <button type="button" id="clear-name-btn" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors p-1" aria-label="Clear name">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
     </div>
     <div class="flex flex-col gap-3">
       <button id="modal-ok-btn" class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-4 rounded-lg hover:bg-secondary transition-colors focus:ring-4 focus:ring-primary/50">OK</button>
@@ -78,8 +83,13 @@
   <!-- Hero Section -->
   <section class="w-full flex flex-col md:flex-row items-center   bg-surface-container rounded-2xl overflow-hidden shadow-sm border border-primary">
     <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col gap-stack-sm">
-      <span class="font-label-caps text-label-caps text-primary tracking-widest uppercase mb-2">Welcome</span>
-      <h1 class="font-headline-lg md:font-data-display text-[38px] leading-[44px] font-bold md:text-[48px] md:leading-[56px] text-on-surface">Alagaan ang Puso para sa Magandang Bukas.</h1>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="font-label-caps text-label-caps text-primary tracking-widest uppercase" data-home-greeting>Welcome</span>
+        <button type="button" data-edit-name class="text-primary hover:text-secondary transition-colors" aria-label="Edit your name">
+          <span class="material-symbols-outlined text-base align-middle">edit</span>
+        </button>
+      </div>
+      <h1 class="font-headline-lg md:font-data-display text-[38px] leading-[44px] font-bold md:text-[48px] md:leading-[56px] text-primary">Alagaan ang Puso para sa Magandang Bukas.</h1>
       <p class="font-body-lg text-body-lg text-on-surface-variant mt-4 max-w-[500px]">
         Project K.I.L.O.S. is here to guide you in managing hypertension. Simple tools, clear information, and a community approach to better health.
       </p>
@@ -94,12 +104,12 @@
 
     <!-- Learn Card -->
     <a class="group flex flex-col p-8   bg-surface-container-low rounded-xl border border-primary   hover:shadow-lg transition-all duration-300 h-full relative overflow-hidden" href="#/about" data-route>
-      <div class="absolute -right-4 -top-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div>
+      <!-- <div class="absolute -right-4 -top-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div> -->
       <div class="z-10 flex flex-col h-full">
         <div class="w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-6">
           <span class="material-symbols-outlined text-3xl">menu_book</span>
         </div>
-        <h2 class="font-headline-md text-headline-md text-on-surface mb-3">Learn about Hypertension</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Learn about Hypertension</h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant flex-grow">Understand your blood pressure, symptoms, and how to manage it through daily habits.</p>
         <div class="mt-6 flex items-center gap-2 text-primary font-bold">
           Read more <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -109,12 +119,12 @@
 
     <!-- Log BP Card -->
     <a class="group flex flex-col p-8   bg-surface-container-low rounded-xl border border-primary   hover:shadow-lg transition-all duration-300 h-full relative overflow-hidden" href="#/tracker" data-route>
-      <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div>
+      <!-- <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div> -->
       <div class="z-10 flex flex-col h-full">
         <div class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center mb-6">
           <span class="material-symbols-outlined text-3xl">monitor_heart</span>
         </div>
-        <h2 class="font-headline-md text-headline-md text-on-surface mb-3">Log your BP</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Log your BP</h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant flex-grow">Keep a secure, easy-to-read daily record of your blood pressure readings.</p>
         <div class="mt-6 flex items-center gap-2 text-primary font-bold">
           Start tracking <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -124,12 +134,12 @@
 
     <!-- Emergency Plan Card (Urgent) -->
     <a class="group flex flex-col p-8   bg-surface-container-low rounded-xl border-l-4 border-primary border   hover:shadow-lg transition-all duration-300 h-full relative overflow-hidden" href="#/emergency" data-route>
-      <div class="absolute -right-4 -top-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div>
+      <!-- <div class="absolute -right-4 -top-4 w-32 h-32 bg-primary-fixed-dim rounded-full opacity-30 group-hover:scale-150 transition-transform duration-700 ease-out z-0"></div> -->
       <div class="z-10 flex flex-col h-full">
         <div class="w-16 h-16 rounded-full bg-error text-on-error flex items-center justify-center mb-6">
           <span class="material-symbols-outlined text-3xl">emergency_share</span>
         </div>
-        <h2 class="font-headline-md text-headline-md text-on-surface mb-3">Emergency Plan</h2>
+        <h2 class="font-headline-md text-headline-md text-primary mb-3">Emergency Plan</h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant flex-grow">Know what to do during a hypertensive crisis. Quick access to hotline numbers.</p>
         <div class="mt-6 flex items-center gap-2 text-error font-bold">
           View contacts <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -142,9 +152,9 @@
   <!-- Info Strip -->
   <section class="w-full bg-tertiary-fixed p-6 rounded-xl border border-primary flex flex-col md:flex-row items-center justify-between gap-4">
     <div class="flex items-center gap-4">
-      <span class="material-symbols-outlined text-4xl text-on-tertiary-fixed-variant">health_and_safety</span>
+      <span class="material-symbols-outlined text-4xl text-primary">health_and_safety</span>
       <div>
-        <h3 class="font-headline-md text-headline-md text-on-surface">Need assistance?</h3>
+        <h3 class="font-headline-md text-headline-md text-primary">Need assistance?</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">Your local Barangay Health Worker is ready to help.</p>
       </div>
     </div>
@@ -157,7 +167,7 @@
 <template id="tpl-about">
   <!-- Hero Section -->
   <section class="flex flex-col gap-stack-sm text-center md:text-left">
-    <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Understanding Hypertension</h1>
+    <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Understanding Hypertension</h1>
     <p class="font-body-lg text-body-lg text-on-surface-variant max-w-6xl">Learn about high blood pressure, why it's important to monitor, and how to recognize warning signs to keep your heart healthy.</p>
   </section>
 
@@ -168,7 +178,7 @@
       <div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-2">
         <span class="material-symbols-outlined" data-weight="fill">favorite</span>
       </div>
-      <h2 class="font-headline-md text-headline-md text-on-surface">What is Hypertension?</h2>
+      <h2 class="font-headline-md text-headline-md text-primary">What is Hypertension?</h2>
       <p class="font-body-md text-body-md text-on-surface-variant">Hypertension, or high blood pressure, happens when the force of blood pushing against your artery walls is consistently too high. Over time, this can damage your heart and blood vessels.</p>
     </div>
 
@@ -177,14 +187,14 @@
       <div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mb-2">
         <span class="material-symbols-outlined" data-weight="fill">visibility</span>
       </div>
-      <h2 class="font-headline-md text-headline-md text-on-surface">Why Monitor Regularly?</h2>
+      <h2 class="font-headline-md text-headline-md text-primary">Why Monitor Regularly?</h2>
       <p class="font-body-md text-body-md text-on-surface-variant">High blood pressure often has no symptoms. Regular checking is the only way to know if your levels are safe. Monitoring at home helps your doctor make better decisions about your care.</p>
     </div>
   </section>
 
   <!-- Possible Complications Section -->
   <section class="flex flex-col gap-stack-md">
-    <h2 class="font-headline-md text-headline-md text-on-background">What Happens If It's Left Uncontrolled?</h2>
+    <h2 class="font-headline-md text-headline-md text-primary">What Happens If It's Left Uncontrolled?</h2>
     <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Uncontrolled high blood pressure quietly damages your body over time, even without symptoms. Here's what's at risk.</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -193,7 +203,7 @@
         <div class="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center">
           <span class="material-symbols-outlined" data-weight="fill">cardiology</span>
         </div>
-        <h3 class="font-headline-md text-body-lg font-semibold text-on-surface">Heart Attack &amp; Heart Failure</h3>
+        <h3 class="font-headline-md text-body-lg font-semibold text-primary">Heart Attack &amp; Heart Failure</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">Constant high pressure forces the heart to work harder, thickening and weakening it over time.</p>
       </div>
 
@@ -201,7 +211,7 @@
         <div class="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center">
           <span class="material-symbols-outlined" data-weight="fill">neurology</span>
         </div>
-        <h3 class="font-headline-md text-body-lg font-semibold text-on-surface">Stroke</h3>
+        <h3 class="font-headline-md text-body-lg font-semibold text-primary">Stroke</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">High blood pressure can burst or block blood vessels supplying the brain, cutting off oxygen.</p>
       </div>
 
@@ -209,7 +219,7 @@
         <div class="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center">
           <span class="material-symbols-outlined" data-weight="fill">water_drop</span>
         </div>
-        <h3 class="font-headline-md text-body-lg font-semibold text-on-surface">Kidney Damage</h3>
+        <h3 class="font-headline-md text-body-lg font-semibold text-primary">Kidney Damage</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">Blood vessels in the kidneys weaken over time, reducing their ability to filter waste properly.</p>
       </div>
 
@@ -217,7 +227,7 @@
         <div class="w-12 h-12 bg-error-container text-on-error-container rounded-full flex items-center justify-center">
           <span class="material-symbols-outlined" data-weight="fill">visibility</span>
         </div>
-        <h3 class="font-headline-md text-body-lg font-semibold text-on-surface">Vision Loss</h3>
+        <h3 class="font-headline-md text-body-lg font-semibold text-primary">Vision Loss</h3>
         <p class="font-body-md text-body-md text-on-surface-variant">Damaged blood vessels in the eyes can lead to blurred vision or permanent vision loss.</p>
       </div>
 
@@ -226,7 +236,7 @@
 
   <!-- BP Ranges Table Section -->
   <section class="flex flex-col gap-stack-md">
-    <h2 class="font-headline-md text-headline-md text-on-background">Blood Pressure Categories</h2>
+    <h2 class="font-headline-md text-headline-md text-primary">Blood Pressure Categories</h2>
     <p class="font-body-md text-body-md text-on-surface-variant">Use this guide to understand your numbers. The top number is Systolic, and the bottom is Diastolic.</p>
     <div class="overflow-x-auto border border-primary rounded-xl bg-surface">
       <table class="w-full text-left border-collapse min-w-[600px]">
@@ -279,7 +289,7 @@
   <section class="flex flex-col gap-stack-md   bg-surface-container-low p-container-margin rounded-xl border border-primary border-l-4 border-l-error">
     <div class="flex items-center gap-3">
       <span class="material-symbols-outlined text-error text-3xl" data-weight="fill">warning</span>
-      <h2 class="font-headline-md text-headline-md text-on-surface">Severe Warning Signs</h2>
+      <h2 class="font-headline-md text-headline-md text-primary">Severe Warning Signs</h2>
     </div>
     <p class="font-body-md text-body-md text-on-surface-variant">If your blood pressure reading is in the Crisis category (180/120 or higher) AND you experience any of these symptoms, seek emergency medical help immediately.</p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
@@ -314,7 +324,12 @@
 <template id="tpl-tracker">
   <!-- Greeting -->
   <div class="text-center md:text-left">
-    <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-2" data-greeting>Magandang araw!</h1>
+    <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary" data-greeting>Magandang araw!</h1>
+      <button type="button" data-edit-name class="text-primary hover:text-secondary transition-colors shrink-0" aria-label="Edit your name">
+        <span class="material-symbols-outlined align-middle">edit</span>
+      </button>
+    </div>
     <p class="font-body-lg text-body-lg text-on-surface-variant">I-record ang iyong blood pressure ngayon para sa mas magandang kalusugan.</p>
   </div>
 
@@ -325,7 +340,7 @@
       <div class="absolute -right-12 -top-12 opacity-10 pointer-events-none">
         <span class="material-symbols-outlined text-[120px]">monitor_heart</span>
       </div>
-      <h2 class="font-headline-md text-headline-md text-on-surface mb-2 relative z-10">I-log ang BP Mo</h2>
+      <h2 class="font-headline-md text-headline-md text-primary mb-2 relative z-10">I-log ang BP Mo</h2>
       <form class="flex flex-col gap-stack-md relative z-10" id="bpForm">
         <div class="flex flex-col gap-2">
           <label class="font-label-caps text-label-caps text-on-surface" for="systolic">Systolic (Mataas na Numero)</label>
@@ -361,7 +376,7 @@
     <div class="lg:col-span-7 flex flex-col gap-stack-md">
       <div class="bg-surface border border-primary rounded-xl overflow-hidden flex-grow flex flex-col">
         <div class="p-6 border-b border-outline-variant   bg-surface-container-low flex justify-between items-center">
-          <h2 class="font-headline-md text-headline-md text-on-surface">Recent History</h2>
+          <h2 class="font-headline-md text-headline-md text-primary">Recent History</h2>
           <span class="material-symbols-outlined text-on-surface-variant">history</span>
         </div>
         <div class="overflow-x-auto">
@@ -451,120 +466,128 @@
 
     <!-- Left Column: Action Plan -->
     <div class="md:col-span-6 flex flex-col gap-stack-md">
-      <h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2">Emergency Action Steps</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2 text-primary">Emergency Action Steps</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
 
         <div class="  bg-surface-container-low rounded-lg p-6 border border-primary flex flex-col gap-3 relative overflow-hidden group">
           <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary-container rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md text-headline-md font-bold mb-2 z-10">1</div>
-          <h3 class="font-headline-md text-body-lg font-semibold text-on-surface z-10">Stay Calm &amp; Sit Down</h3>
+          <h3 class="font-headline-md text-body-lg font-semibold text-primary z-10">Stay Calm &amp; Sit Down</h3>
           <p class="font-body-md text-body-md text-on-surface-variant z-10">Find a comfortable chair, support your back, and keep your feet flat on the floor. Do not panic.</p>
         </div>
 
         <div class="  bg-surface-container-low rounded-lg p-6 border border-primary flex flex-col gap-3 relative overflow-hidden group">
           <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary-container rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md text-headline-md font-bold mb-2 z-10">2</div>
-          <h3 class="font-headline-md text-body-lg font-semibold text-on-surface z-10">Wait 5 Minutes</h3>
+          <h3 class="font-headline-md text-body-lg font-semibold text-primary z-10">Wait 5 Minutes</h3>
           <p class="font-body-md text-body-md text-on-surface-variant z-10">Rest quietly for 5 minutes without talking, moving, or looking at your phone.</p>
         </div>
 
         <div class="  bg-surface-container-low rounded-lg p-6 border border-primary flex flex-col gap-3 relative overflow-hidden group">
           <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary-container rounded-full opacity-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md text-headline-md font-bold mb-2 z-10">3</div>
-          <h3 class="font-headline-md text-body-lg font-semibold text-on-surface z-10">Retest Blood Pressure</h3>
+          <h3 class="font-headline-md text-body-lg font-semibold text-primary z-10">Retest Blood Pressure</h3>
           <p class="font-body-md text-body-md text-on-surface-variant z-10">Check your BP again. If it is still over 180/120, proceed to the next step immediately.</p>
         </div>
 
         <div class="  bg-surface-container-low rounded-lg p-6 border border-primary flex flex-col gap-3 relative overflow-hidden group">
           <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-md text-headline-md font-bold mb-2 z-10">4</div>
-          <h3 class="font-headline-md text-body-lg font-semibold z-10">Call for Help</h3>
+          <h3 class="font-headline-md text-body-lg font-semibold z-10 text-primary">Call for Help</h3>
           <p class="font-body-md text-body-md z-10">Call your family member or emergency contacts. Describe your symptoms clearly.</p>
         </div>
 
       </div>
-
-      <div class="bg-tertiary-fixed rounded-lg p-6 flex items-center gap-4 border border-primary">
-        <span class="material-symbols-outlined text-3xl text-on-tertiary-fixed-variant">info</span>
-        <p class="font-body-md text-body-md text-on-tertiary-fixed-variant"><strong>Symptoms to watch out for:</strong> Chest pain, shortness of breath, back pain, numbness/weakness, change in vision, or difficulty speaking.</p>
-      </div>
     </div>
 
-    <!-- Right Column: Contacts & Location, side-by-side -->
-    <div class="md:col-span-3 flex flex-col gap-stack-md mt-8 md:mt-0">
-
+    <div class="md:col-span-6 flex flex-col gap-stack-md mt-8 md:mt-0">
       <!-- Contacts -->
       <div class="flex flex-col gap-stack-md">
-        <h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2">Emergency Contacts</h2>
+        <h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant pb-2">Emergency Contacts</h2>
         <div class="flex flex-col gap-4">
 
           <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
             <div>
-              <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Barangay Health Station (BHS)</p>
+              <p class="font-label-caps text-label-caps text-primary mb-1">Barangay Health Station (BHS)</p>
               <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09123456789</p>
+            </div>
+            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09123456789">
+              <span class="material-symbols-outlined">call</span>
+            </a>
+          </div>
+
+          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
+            <div>
+              <p class="font-label-caps text-label-caps text-primary mb-1">MDRRMO Mercedes</p>
+              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09123456789</p>
+            </div>
+            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09123456789">
+              <span class="material-symbols-outlined">call</span>
+            </a>
+          </div>
+
+          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
+            <div>
+              <p class="font-label-caps text-label-caps text-primary mb-1">Provincial Hospital</p>
+              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09123456789</p>
+            </div>
+            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09123456789">
+              <span class="material-symbols-outlined">call</span>
+            </a>
+          </div>
+
+          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
+            <div>
+              <p class="font-label-caps text-label-caps text-primary mb-1">Other Emergency Care Services</p>
+              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09171234567</p>
             </div>
             <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09171234567">
               <span class="material-symbols-outlined">call</span>
             </a>
           </div>
-
-          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
-            <div>
-              <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">MDRRMO Mercedes</p>
-              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09123456789</p>
-            </div>
-            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09170000000">
-              <span class="material-symbols-outlined">call</span>
-            </a>
-          </div>
-
-          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
-            <div>
-              <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Provincial Hospital</p>
-              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">09123456789</p>
-            </div>
-            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09170000000">
-              <span class="material-symbols-outlined">call</span>
-            </a>
-          </div>
-
-          <div class="   bg-surface-container-low rounded-lg p-5 border border-primary flex items-center justify-between">
-            <div>
-              <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Other Emergency Care Services</p>
-              <p class="font-headline-md text-headline-md font-bold text-on-surface  ">0917-000-0000</p>
-            </div>
-            <a class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-secondary transition-colors shrink-0" href="tel:09170000000">
-              <span class="material-symbols-outlined">call</span>
-            </a>
-          </div>
         </div>
       </div>
+    </div>
 
+    <div class="md:col-span-12 flex justify-center gap-stack-md mt-8 md:mt-0">
+      <div class="bg-tertiary-fixed rounded-lg p-6 flex items-center justify-center gap-4 border border-primary">
+        <p class="font-body-md text-body-md text-primary text-center">
+          <strong>Symptoms to watch out for:</strong> Chest pain, shortness of breath, back pain, numbness/weakness, change in vision, or difficulty speaking.
+        </p>
+      </div>
     </div>
 
     <!-- Right Column: Contacts & Location, side-by-side -->
-        <div class="md:col-span-3 flex flex-col gap-stack-md mt-8 md:mt-0"">
-
-      <!-- Nearest Facility -->
-      <div class="flex flex-col gap-stack-md">
-        <h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2">Nearest Facility</h2>
-        <div class="  bg-surface-container rounded-lg overflow-hidden border border-primary">
-          <div class="h-48 w-full bg-surface-variant relative">
-            <img class="w-full h-full object-cover" alt="Map showing the route to San Isidro Health Center, the nearest barangay health facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC72YOiiUDJ3t-lkhoe7AAwa3Cu5rWyeFJfcVb-cfqb4UJG9k_j-2tVPntX69FWCMZhvfGHPIjgEx8dB6g4UDHEZwRdhMOSFDtAa4QrllOqd2PDFYRFzyhA1A6zcFLT1R87gybzOqprvzvCfs2SMFHI-OTxpEwtA0mgr1M3DtlgzhWzPr0sdwSKM2bXpDxmlsMW9en3wfYLIqgAjOn29FaATFtdL_B_g7J-v0Mjj-bwIVxN08H1ZW_iHQ">
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <span class="material-symbols-outlined text-error text-5xl" data-weight="fill">location_on</span>
+    <div class="md:col-span-12 flex flex-col gap-stack-md mt-8 md:mt-0">
+      <h2 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-2 text-primary">Nearest Facility</h2>
+      <div class="  bg-surface-container-low rounded-xl overflow-hidden border border-primary shadow-sm md:flex">
+        <div class="h-56 md:h-auto md:w-1/2 w-full relative">
+          <iframe
+            class="w-full h-full border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=13.9473138,123.0792718&z=17&output=embed">
+          </iframe>
+        </div>
+        <div class="p-8 md:w-1/2 flex flex-col justify-center gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-2xl" data-weight="fill">local_hospital</span>
+            </div>
+            <div>
+              <h3 class="font-headline-md text-headline-md text-primary">Barangay Health Center</h3>
             </div>
           </div>
-          <div class="p-4">
-            <h3 class="font-headline-md text-body-lg font-semibold text-on-surface">San Isidro Health Center</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant mt-1 flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm">map</span>
-              123 Rizal St., Barangay San Isidro
-            </p>
-            <p class="font-body-md text-body-md text-on-surface-variant mt-1 flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm">schedule</span>
-              Open 24/7 for Emergencies
-            </p>
-          </div>
+
+          <p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2 pl-1">
+            <span class="material-symbols-outlined text-lg text-primary">location_on</span>
+            Barangay Tarum, Mercedes, Camarines Norte
+          </p>
+
+          <a href="https://maps.app.goo.gl/vc6iRRMYNYtF5GBXA" target="_blank" rel="noopener"
+            class="mt-2 inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded-full w-full md:w-fit md:self-end hover:bg-secondary transition-colors shadow-sm">
+            <span class="material-symbols-outlined">directions</span>
+            Get Directions
+          </a>
         </div>
       </div>
 

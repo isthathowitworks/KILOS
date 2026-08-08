@@ -148,6 +148,7 @@ function render() {
   // nodes with no listeners, so this must happen on every render,
   // not just once on load.
   if (route.page === "tracker") initBpForm();
+  if (route.page === "home") updateHomeGreeting();
 
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
 }
@@ -238,9 +239,11 @@ window.addEventListener("hashchange", render);
 })();
 
 /* ============================================================
-   4. WELCOME MODAL (name capture + localStorage, first visit only)
-   Lives in the shell markup, so this only needs to run once on
-   load — it does not depend on which route is showing.
+   4. WELCOME MODAL (name capture + localStorage)
+   Shown automatically on first visit, and reusable afterward via
+   any [data-edit-name] pencil button (event delegation, since
+   those buttons live inside route templates that get re-cloned
+   on every navigation — a direct listener would be lost on swap).
    ============================================================ */
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("welcome-modal-overlay");
@@ -250,8 +253,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const okBtn = document.getElementById("modal-ok-btn");
   const skipBtn = document.getElementById("modal-skip-btn");
 
-  if (!localStorage.getItem("hasVisited")) {
+  function openModal() {
+    input.value = localStorage.getItem("userName") || "";
     overlay.classList.remove("hidden");
+    input.focus();
+    toggleClearBtn();
+
+    const modalGreeting = document.querySelector("[data-modal-greeting]");
+    if (modalGreeting) {
+      modalGreeting.textContent = `${getTimeGreeting()}!`;
+    }
   }
 
   function closeModal() {
@@ -259,16 +270,87 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("hasVisited", "true");
   }
 
+  const clearBtn = document.getElementById("clear-name-btn");
+
+  function toggleClearBtn() {
+    clearBtn.classList.toggle("hidden", input.value.length === 0);
+  }
+
+  input.addEventListener("input", toggleClearBtn);
+
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    toggleClearBtn();
+    input.focus();
+  });
+
+  if (!localStorage.getItem("hasVisited")) {
+    openModal();
+  }
+
   okBtn.addEventListener("click", () => {
     const name = input.value.trim();
     if (name) {
       localStorage.setItem("userName", name);
+    } else {
+      localStorage.removeItem("userName");
     }
+    closeModal();
+    refreshGreetings();
+  });
+
+  skipBtn.addEventListener("click", () => {
     closeModal();
   });
 
-  skipBtn.addEventListener("click", closeModal);
+  // Delegated listener: catches pencil clicks on Home, Tracker,
+  // or any future page, regardless of route re-renders.
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-edit-name]")) {
+      openModal();
+    }
+  });
 });
+
+/* ============================================================
+   TIME-BASED GREETING + NAME DISPLAY
+   3:00–11:30  -> Magandang umaga (morning)
+   11:31–12:59 -> Magandang tanghali (midday)
+   1:00–5:59pm -> Magandang hapon (afternoon)
+   6:00pm–2:59 -> Magandang gabi (evening/night, wraps past midnight)
+   ============================================================ */
+function getTimeGreeting() {
+  const now = new Date();
+  const mins = now.getHours() * 60 + now.getMinutes();
+
+  if (mins >= 180 && mins <= 690) return "Magandang umaga";
+  if (mins >= 691 && mins <= 779) return "Magandang tanghali";
+  if (mins >= 780 && mins <= 1079) return "Magandang hapon";
+  return "Magandang gabi";
+}
+
+function updateHomeGreeting() {
+  const el = document.querySelector("[data-home-greeting]");
+  if (!el) return;
+  const name = localStorage.getItem("userName");
+  el.textContent = name ? `Welcome, ${name}` : "Welcome";
+}
+
+function updateTrackerGreeting() {
+  const el = document.querySelector("[data-greeting]");
+  if (!el) return;
+  const name = localStorage.getItem("userName");
+  const timeGreeting = getTimeGreeting();
+  el.textContent = name ? `${timeGreeting}, ${name}!` : `${timeGreeting}!`;
+}
+
+// Called after any name change (modal OK/Skip). Each updater
+// self-guards with querySelector, so calling both is safe even
+// though only one greeting exists on the current page.
+function refreshGreetings() {
+  updateHomeGreeting();
+  updateTrackerGreeting();
+}
 
 /* ============================================================
    5. BP TRACKER FORM (visual stub only — does not persist yet)
@@ -279,11 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
    cloned in, since a fresh clone has no event listeners attached.
    ============================================================ */
 function initBpForm() {
-  const greeting = document.querySelector("[data-greeting]");
-  if (greeting) {
-    const name = localStorage.getItem("userName");
-    greeting.textContent = name ? `Magandang araw, ${name}!` : "Magandang araw!";
-  }
+  updateTrackerGreeting();
 
   const form = document.getElementById("bpForm");
   if (!form) return;
