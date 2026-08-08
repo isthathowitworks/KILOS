@@ -23,7 +23,7 @@
   individually (pb-24 for bottom-nav clearance applies everywhere now, since
   the bottom nav is mounted on every route, not just some pages).
 -->
-<body class="bg-background text-on-background antialiased min-h-screen flex flex-col font-body-md text-body-md pb-[70px] md:pb-0">
+<body class="bg-background text-on-background antialiased font-body-md text-body-md pb-[70px] md:pb-0">
 
 <!-- Shared TopAppBar (rendered once by scripts/main.js -> renderHeader).
      class="contents" makes this wrapper invisible to layout (display:
@@ -38,7 +38,7 @@
   you navigate — router.render() swaps its innerHTML for the matching
   <template> below. Header/footer/bottom-nav above and below never reload.
 -->
-<main id="page-content" class="flex-grow w-full max-w-[1540px] mx-auto px-container-margin py-stack-lg flex flex-col gap-stack-lg mb-20 md:mb-0"></main>
+<main id="page-content" class="w-full max-w-[1140px] mx-auto px-container-margin py-stack-lg flex flex-col gap-stack-lg"></main>
 
 <!-- Shared BottomNavBar, mobile only (rendered once by scripts/main.js -> renderBottomNav) -->
 <div id="site-bottom-nav"></div>
