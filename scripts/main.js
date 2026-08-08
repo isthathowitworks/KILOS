@@ -13,54 +13,57 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
+        "primary-container": "#ffdad4",
+        "surface-tint": "#8a0000",
+        "primary": "#8a0000",
+        "secondary": "#8a0000",
+        "on-primary-container": "#690000",
+        "on-primary": "#ffffff",
+        "inverse-primary": "#ffb4a8",
+        "brand-maroon": "#8a0000",
+        "brand-maroon-hover": "#6e0000",
         "secondary-fixed": "#a0f4c8",
         "surface": "#fcf9f8",
-        "primary-container": "#2d6a4f",
         "surface-container": "#f0eded",
         "on-secondary-fixed-variant": "#005236",
-        "surface-tint": "#2c694e",
         "surface-dim": "#dcd9d9",
         "on-error-container": "#93000a",
         "error-container": "#ffdad6",
-        "on-primary-fixed": "#002114",
+        "on-primary-fixed": "#410002",
         "on-secondary": "#ffffff",
         "secondary-container": "#a0f4c8",
-        "primary": "#0f5238",
-        "secondary": "#0e6c4a",
         "on-surface-variant": "#404943",
         "on-secondary-fixed": "#002113",
-        "inverse-primary": "#95d4b3",
         "outline-variant": "#bfc9c1",
         "surface-variant": "#e5e2e1",
         "background": "#fcf9f8",
         "on-error": "#ffffff",
         "inverse-on-surface": "#f3f0ef",
-        "on-tertiary-container": "#d5dccd",
-        "tertiary-fixed": "#dee5d6",
-        "on-tertiary-fixed-variant": "#42493e",
         "on-surface": "#1b1b1b",
         "on-secondary-container": "#19724f",
         "surface-container-low": "#f6f3f2",
-        "primary-fixed": "#b1f0ce",
+        "primary-fixed": "#ffdad4",
         "on-tertiary": "#ffffff",
         "inverse-surface": "#313030",
         "on-primary": "#ffffff",
-        "on-tertiary-fixed": "#171d14",
         "outline": "#707973",
-        "on-primary-container": "#a8e7c5",
         "error": "#ba1a1a",
-        "tertiary": "#42493f",
-        "tertiary-fixed-dim": "#c2c9bb",
-        "primary-fixed-dim": "#95d4b3",
+        "primary-fixed-dim": "#ffb4a8",
         "surface-container-lowest": "#ffffff",
         "surface-container-high": "#eae7e7",
         "surface-bright": "#fcf9f8",
-        "on-primary-fixed-variant": "#0e5138",
-        "tertiary-container": "#5a6156",
+        "on-primary-fixed-variant": "#690000",
         "surface-container-highest": "#e5e2e1",
         "on-background": "#1b1b1b",
         "secondary-fixed-dim": "#85d7ad",
-        "warning": "#d32f2f"
+        "warning": "#d32f2f",
+        "tertiary": "#6f4a44",
+        "tertiary-container": "#8a5c55",
+        "on-tertiary-container": "#ffffff",
+        "tertiary-fixed": "#f0dedc",
+        "tertiary-fixed-dim": "#d9bab5",
+        "on-tertiary-fixed": "#2b1512",
+        "on-tertiary-fixed-variant": "#5c4440"
       },
       borderRadius: {
         DEFAULT: "0.25rem",
@@ -180,21 +183,24 @@ window.addEventListener("hashchange", render);
 
     const links = NAV_ITEMS.map((item) => {
       const active = item.key === currentPage;
-      const activeClasses = "text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed font-bold";
-      const inactiveClasses = "text-on-surface-variant dark:text-surface-variant font-medium hover:text-primary dark:hover:text-primary-fixed-dim";
+      const activeClasses = "text-brand-maroon dark:text-brand-maroon border-b-2 border-brand-maroon font-bold";
+      const inactiveClasses = "text-on-surface-variant dark:text-surface-variant font-medium hover:text-brand-maroon dark:hover:text-brand-maroon";
       return `<a class="font-label-caps text-label-caps ${active ? activeClasses : inactiveClasses} transition-colors py-2" href="#${item.path}">${item.label}</a>`;
     }).join("\n      ");
 
     mount.innerHTML = `
-<header class="md:sticky md:top-0 w-full z-50 flex justify-between items-center px-container-margin py-4 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline">
-  <a class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed" href="#/">K.I.L.O.S.</a>
-  <nav class="hidden md:flex gap-6 items-center ml-auto">
-      ${links}
-  </nav>
-  <div class="flex items-center gap-4 text-primary dark:text-primary-fixed ml-6">
-    <button class="hover:text-primary dark:hover:text-primary-fixed-dim transition-colors"></button>
-  </div>
-</header>`;
+  <header class="md:sticky md:top-0 w-full z-50 flex justify-between items-center px-container-margin py-4 bg-surface dark:bg-background border-b border-outline-variant dark:border-outline">
+    <a class="flex items-center gap-3" href="#/">
+      <img src="assets/logo/kilos-logo.png" alt="Project K.I.L.O.S. logo" class="h-10 w-10 object-contain shrink-0">
+      <span class="font-headline-lg text-headline-lg font-bold text-brand-maroon">K.I.L.O.S.</span>
+    </a>
+    <nav class="hidden md:flex gap-6 items-center ml-auto">
+        ${links}
+    </nav>
+    <div class="flex items-center gap-4 text-brand-maroon ml-6">
+      <button class="hover:text-brand-maroon-hover transition-colors"></button>
+    </div>
+  </header>`;
   };
 
   window.renderBottomNav = function renderBottomNav() {
@@ -204,18 +210,18 @@ window.addEventListener("hashchange", render);
 
     const links = BOTTOM_NAV_ITEMS.map((item) => {
       const active = item.key === currentPage;
-      const activeClasses = "bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container";
+      const activeClasses = "bg-brand-maroon/15 dark:bg-brand-maroon/25 text-brand-maroon dark:text-brand-maroon";
       const inactiveClasses = "text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-tertiary-container";
       return `
-  <a class="flex flex-col items-center justify-center ${active ? activeClasses : inactiveClasses} rounded-full px-4 py-1 transition-transform active:scale-90 duration-150" href="#${item.path}">
-    <span class="material-symbols-outlined mb-1"${active ? ' data-weight="fill"' : ""}>${item.icon}</span>
-    <span class="font-label-caps text-label-caps text-[10px] leading-tight">${item.label}</span>
-  </a>`;
+    <a class="flex flex-col items-center justify-center ${active ? activeClasses : inactiveClasses} rounded-full px-4 py-1 transition-transform active:scale-90 duration-150" href="#${item.path}">
+      <span class="material-symbols-outlined mb-1"${active ? ' data-weight="fill"' : ""}>${item.icon}</span>
+      <span class="font-label-caps text-label-caps text-[10px] leading-tight">${item.label}</span>
+    </a>`;
     }).join("");
 
     mount.innerHTML = `
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 md:hidden bg-surface dark:bg-surface-container-low border-t border-outline-variant shadow-lg">${links}
-</nav>`;
+  <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 md:hidden bg-surface dark:bg-surface-container-low border-t border-outline-variant shadow-lg">${links}
+  </nav>`;
   };
 
   window.renderFooter = function renderFooter() {
