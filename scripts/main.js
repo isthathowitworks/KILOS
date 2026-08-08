@@ -24,7 +24,7 @@ tailwind.config = {
         "brand-maroon-hover": "#6e0000",
         "secondary-fixed": "#a0f4c8",
         "surface": "#fcf9f8",
-        "surface-container": "#f0eded",
+        "surface-container": "#f1f1f1",
         "on-secondary-fixed-variant": "#005236",
         "surface-dim": "#dcd9d9",
         "on-error-container": "#93000a",

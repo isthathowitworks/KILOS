@@ -29,6 +29,9 @@ This document outlines the development milestones, feature requirements, and tec
 
 ```
 KILOS/
+├── assets/
+│   └── logo/
+│       └── kilos-logo.png 
 ├── navigation/
 │   ├── abouthypertension.html
 │   ├── bptracker.html
