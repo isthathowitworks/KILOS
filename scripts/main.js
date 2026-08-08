@@ -118,7 +118,8 @@ const ROUTES = {
   "/": { page: "home", title: "Project K.I.L.O.S. - Home", template: "tpl-home" },
   "/about": { page: "about", title: "About Hypertension - K.I.L.O.S.", template: "tpl-about" },
   "/tracker": { page: "tracker", title: "BP Tracker - K.I.L.O.S.", template: "tpl-tracker" },
-  "/emergency": { page: "emergency", title: "Emergency Plan - K.I.L.O.S.", template: "tpl-emergency" }
+  "/emergency": { page: "emergency", title: "Emergency Plan - K.I.L.O.S.", template: "tpl-emergency" },
+  "/faqs": { page: "faqs", title: "FAQs - K.I.L.O.S.", template: "tpl-faqs" }
 };
 
 function currentPath() {
@@ -166,15 +167,16 @@ window.addEventListener("hashchange", render);
     { key: "home", label: "Home", icon: "home", path: "/" },
     { key: "about", label: "About Hypertension", icon: "menu_book", path: "/about" },
     { key: "tracker", label: "BP Tracker", icon: "monitor_heart", path: "/tracker" },
-    { key: "emergency", label: "Emergency Plan", icon: "emergency_share", path: "/emergency" }
+    { key: "emergency", label: "Emergency Plan", icon: "emergency_share", path: "/emergency" },
+    { key: "faqs", label: "FAQs", icon: "quiz", path: "/faqs" }
   ];
 
-  // Bottom nav keeps its own shorter labels/order, matching the original.
   const BOTTOM_NAV_ITEMS = [
     { key: "home", label: "Home", icon: "home", path: "/" },
     { key: "about", label: "About", icon: "menu_book", path: "/about" },
     { key: "tracker", label: "Tracker", icon: "monitor_heart", path: "/tracker" },
-    { key: "emergency", label: "Emergency", icon: "emergency_share", path: "/emergency" }
+    { key: "emergency", label: "Emergency", icon: "emergency_share", path: "/emergency" },
+    { key: "faqs", label: "FAQs", icon: "quiz", path: "/faqs" }
   ];
 
   window.renderHeader = function renderHeader() {
@@ -353,6 +355,88 @@ function refreshGreetings() {
 }
 
 /* ============================================================
+   BP HISTORY (localStorage-backed, capped)
+   Newest entry goes to the front; once the list exceeds
+   MAX_HISTORY, the oldest entries fall off the end.
+   ============================================================ */
+const BP_HISTORY_KEY = "bpHistory";
+const MAX_HISTORY = 10;
+
+function getBpHistory() {
+  try {
+    const raw = localStorage.getItem(BP_HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveBpHistory(history) {
+  localStorage.setItem(BP_HISTORY_KEY, JSON.stringify(history));
+}
+
+function getBpStatus(systolic, diastolic) {
+  if (systolic > 180 || diastolic > 120) {
+    return { label: "Crisis", icon: "priority_high", classes: "bg-error text-on-error" };
+  }
+  if (systolic >= 140 || diastolic >= 90) {
+    return { label: "High", icon: "priority_high", classes: "bg-error-container text-on-error-container" };
+  }
+  if (systolic >= 130 || diastolic >= 80) {
+    return { label: "High", icon: "warning", classes: "bg-error-container text-on-error-container" };
+  }
+  if (systolic >= 120 && diastolic < 80) {
+    return { label: "Elevated", icon: "warning", classes: "bg-[#ffecb3] text-[#795548]" };
+  }
+  return { label: "Normal", icon: "check", classes: "bg-secondary-container text-on-secondary-container" };
+}
+
+function formatHistoryTimestamp(iso) {
+  const date = new Date(iso);
+  const now = new Date();
+  const timeStr = date.toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", hour12: true });
+
+  if (date.toDateString() === now.toDateString()) return `Ngayon, ${timeStr}`;
+
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) return `Kahapon, ${timeStr}`;
+
+  const dateStr = date.toLocaleDateString("en-PH", { month: "short", day: "numeric" });
+  return `${dateStr}, ${timeStr}`;
+}
+
+function renderBpHistory() {
+  const tbody = document.querySelector("[data-history-body]");
+  if (!tbody) return;
+
+  const history = getBpHistory();
+
+  if (history.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="3" class="p-6 text-center text-on-surface-variant">Wala pang naitatalang BP reading.</td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = history.map((entry, i) => {
+    const status = getBpStatus(entry.systolic, entry.diastolic);
+    const rowBg = i % 2 === 0 ? "bg-surface" : "bg-surface-container-lowest";
+    return `
+      <tr class="${rowBg}">
+        <td class="p-4 border-b border-outline-variant text-on-surface-variant">${formatHistoryTimestamp(entry.timestamp)}</td>
+        <td class="p-4 border-b border-outline-variant font-medium">${entry.systolic} / ${entry.diastolic}</td>
+        <td class="p-4 border-b border-outline-variant">
+          <span class="inline-flex items-center gap-1 ${status.classes} px-2 py-1 rounded-full text-xs font-label-caps">
+            <span class="material-symbols-outlined text-[14px]">${status.icon}</span> ${status.label}
+          </span>
+        </td>
+      </tr>`;
+  }).join("");
+}
+
+/* ============================================================
    5. BP TRACKER FORM (visual stub only — does not persist yet)
    TODO: replace with real localStorage-backed logging + dynamic
    history list per the Development Plan, Milestone 5.
@@ -362,19 +446,34 @@ function refreshGreetings() {
    ============================================================ */
 function initBpForm() {
   updateTrackerGreeting();
+  renderBpHistory();
 
   const form = document.getElementById("bpForm");
   if (!form) return;
 
   const successState = document.getElementById("successState");
   const resetBtn = document.getElementById("resetForm");
+  const urgentCard = document.querySelector("[data-urgent-card]");
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    // Simulate saving
-    setTimeout(() => {
-      successState.classList.remove("hidden");
-    }, 300);
+
+    const systolic = parseInt(document.getElementById("systolic").value, 10);
+    const diastolic = parseInt(document.getElementById("diastolic").value, 10);
+    if (isNaN(systolic) || isNaN(diastolic)) return;
+
+    const history = getBpHistory();
+    history.unshift({ systolic, diastolic, timestamp: new Date().toISOString() });
+    history.length = Math.min(history.length, MAX_HISTORY); // drop oldest past the cap
+    saveBpHistory(history);
+    renderBpHistory();
+
+    const status = getBpStatus(systolic, diastolic);
+    if (urgentCard) {
+      urgentCard.classList.toggle("hidden", status.label !== "Crisis");
+    }
+
+    successState.classList.remove("hidden");
   });
 
   resetBtn.addEventListener("click", () => {
@@ -382,3 +481,22 @@ function initBpForm() {
     form.reset();
   });
 }
+
+/* ============================================================
+   6. FAQ ACCORDION
+   Delegated on document (not the buttons directly) since FAQ
+   items live inside a route <template> that gets re-cloned on
+   every navigation — same pattern as the edit-name pencil.
+   ============================================================ */
+document.addEventListener("click", (e) => {
+  const toggle = e.target.closest("[data-faq-toggle]");
+  if (!toggle) return;
+
+  const item = toggle.closest("[data-faq-item]");
+  const answer = item.querySelector("[data-faq-answer]");
+  const icon = item.querySelector("[data-faq-icon]");
+
+  const isOpen = !answer.classList.contains("hidden");
+  answer.classList.toggle("hidden", isOpen);
+  icon.classList.toggle("rotate-180", !isOpen);
+});

@@ -379,51 +379,26 @@
           <h2 class="font-headline-md text-headline-md text-primary">Recent History</h2>
           <span class="material-symbols-outlined text-on-surface-variant">history</span>
         </div>
+
+        <!-- Static header, never scrolls -->
         <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
+          <table class="w-full text-left border-collapse table-fixed">
             <thead>
               <tr class="bg-surface-variant text-on-surface-variant font-label-caps text-label-caps">
-                <th class="p-4 border-b border-outline-variant">Petsa / Oras</th>
-                <th class="p-4 border-b border-outline-variant">Reading</th>
-                <th class="p-4 border-b border-outline-variant">Status</th>
+                <th class="p-4 border-b border-outline-variant w-[40%]">Petsa / Oras</th>
+                <th class="p-4 border-b border-outline-variant w-[30%]">Reading</th>
+                <th class="p-4 border-b border-outline-variant w-[30%]">Status</th>
               </tr>
             </thead>
-            <tbody class="font-body-md text-body-md text-on-surface">
-              <tr class="bg-surface">
-                <td class="p-4 border-b border-outline-variant text-on-surface-variant">Ngayon, 8:30 AM</td>
-                <td class="p-4 border-b border-outline-variant font-medium">120 / 80</td>
-                <td class="p-4 border-b border-outline-variant">
-                  <span class="inline-flex items-center gap-1 bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full text-xs font-label-caps">
-                    <span class="material-symbols-outlined text-[14px]">check</span> Normal
-                  </span>
-                </td>
-              </tr>
-              <tr class="  bg-surface-container-lowest">
-                <td class="p-4 border-b border-outline-variant text-on-surface-variant">Kahapon, 6:00 PM</td>
-                <td class="p-4 border-b border-outline-variant font-medium">135 / 85</td>
-                <td class="p-4 border-b border-outline-variant">
-                  <span class="inline-flex items-center gap-1 bg-[#ffecb3] text-[#795548] px-2 py-1 rounded-full text-xs font-label-caps">
-                    <span class="material-symbols-outlined text-[14px]">warning</span> Elevated
-                  </span>
-                </td>
-              </tr>
-              <tr class="bg-surface">
-                <td class="p-4 border-b border-outline-variant text-on-surface-variant">Okt 24, 7:15 AM</td>
-                <td class="p-4 border-b border-outline-variant font-medium">118 / 78</td>
-                <td class="p-4 border-b border-outline-variant">
-                  <span class="inline-flex items-center gap-1 bg-secondary-container text-on-secondary-container px-2 py-1 rounded-full text-xs font-label-caps">
-                    <span class="material-symbols-outlined text-[14px]">check</span> Normal
-                  </span>
-                </td>
-              </tr>
-              <tr class="  bg-surface-container-lowest">
-                <td class="p-4 border-b border-outline-variant text-on-surface-variant">Okt 23, 8:00 AM</td>
-                <td class="p-4 border-b border-outline-variant font-medium">145 / 90</td>
-                <td class="p-4 border-b border-outline-variant">
-                  <span class="inline-flex items-center gap-1 bg-error-container text-on-error-container px-2 py-1 rounded-full text-xs font-label-caps">
-                    <span class="material-symbols-outlined text-[14px]">priority_high</span> High
-                  </span>
-                </td>
+          </table>
+        </div>
+
+        <!-- Only this table scrolls -->
+        <div class="overflow-x-auto overflow-y-auto max-h-[300px]">
+          <table class="w-full text-left border-collapse table-fixed">
+            <tbody class="font-body-md text-body-md text-on-surface" data-history-body>
+              <tr>
+                <td colspan="3" class="p-6 text-center text-on-surface-variant">Wala pang naitatalang BP reading.</td>
               </tr>
             </tbody>
           </table>
@@ -431,7 +406,7 @@
       </div>
 
       <!-- Urgent Action Card (toggled by scripts/main.js when a reading is in Crisis range) -->
-      <div class="bg-error-container border-l-4 border-error rounded-r-xl p-6 shadow-sm flex flex-col sm:flex-row items-center gap-4 hidden">
+      <div class="bg-error-container border-l-4 border-error rounded-r-xl p-6 shadow-sm flex flex-col sm:flex-row items-center gap-4 hidden" data-urgent-card>
         <span class="material-symbols-outlined text-error text-4xl">emergency</span>
         <div class="flex-grow">
           <h3 class="font-headline-md text-headline-md text-on-error-container">Mataas ang BP mo ngayon.</h3>
@@ -594,6 +569,97 @@
     </div>
 
   </div>
+</template>
+
+<template id="tpl-faqs">
+  <section class="flex flex-col gap-stack-sm text-center md:text-left">
+    <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Mga Madalas Itanong</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-6xl">Mga sagot sa karaniwang katanungan tungkol sa hypertension at sa paggamit ng K.I.L.O.S.</p>
+  </section>
+
+  <section class="flex flex-col gap-4">
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Ano ang hypertension?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Ang hypertension o mataas na presyon ng dugo ay nangyayari kapag palaging mataas ang puwersa ng dugo laban sa dingding ng ugat. Kadalasan itong walang nararamdamang sintomas kaya mahalagang regular na sinusukat.</p>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Ano ang normal na blood pressure reading?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Ang normal na reading ay mas mababa sa 120/80 mmHg. Makikita ang kumpletong listahan ng mga kategorya sa pahinang "About Hypertension".</p>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Gaano kadalas dapat magsukat ng BP?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Iminumungkahi na sukatin ang BP nang isang beses araw-araw, sa parehong oras kung maaari, para makakuha ng mas tumpak na larawan ng kalagayan ng iyong presyon sa paglipas ng panahon.</p>
+      </div>
+    </div>
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Paano magsukat nang tama gamit ang home monitor?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Umupo nang tahimik sa loob ng 5 minuto bago magsukat, huwag mag-usap o gumalaw, itapat ang braso sa antas ng puso, at iwasang uminom ng kape o manigarilyo 30 minuto bago magsukat.</p>
+      </div>
+    </div>
+
+    <!-- <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Ano ang DASH diet?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Ang DASH (Dietary Approaches to Stop Hypertension) ay isang paraan ng pagkain na nakatuon sa gulay, prutas, whole grains, at pagbabawas ng asin, para tumulong sa pagpapababa ng blood pressure.</p>
+      </div>
+    </div> -->
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Kailan dapat humingi ng agarang tulong medikal?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Kung ang reading mo ay 180/120 o mas mataas AT may kasamang matinding sakit ng ulo, pananakit ng dibdib, o kahirapan sa paghinga, tumawag agad ng emergency care. Tingnan ang pahinang "Emergency Plan" para sa buong hakbang.</p>
+      </div>
+    </div>
+
+    <!-- <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Saan napupunta ang mga BP records ko?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Naka-save lang ang mga ito sa iyong sariling device (localStorage) — hindi ito ipinapadala saanmang server. Kung mag-clear ka ng browser data o gumamit ng ibang device, mabubura ang mga naitalang reading.</p>
+      </div>
+    </div> -->
+
+    <div class="bg-surface-container-low border border-primary rounded-xl overflow-hidden" data-faq-item>
+      <button type="button" class="w-full flex items-center justify-between gap-4 p-6 text-left" data-faq-toggle>
+        <span class="font-headline-md text-body-lg font-semibold text-on-surface">Kailangan ko bang magpatuloy sa gamot kahit normal na ang BP ko?</span>
+        <span class="material-symbols-outlined text-primary shrink-0 transition-transform duration-200" data-faq-icon>expand_more</span>
+      </button>
+      <div class="hidden px-6 pb-6" data-faq-answer>
+        <p class="font-body-md text-body-md text-on-surface-variant">Oo, huwag itigil ang gamot nang walang payo ng doktor kahit normal na ang mga reading — madalas ang normal na reading ay resulta mismo ng gamot. Kausapin ang iyong health worker bago gumawa ng anumang pagbabago.</p>
+      </div>
+    </div>
+
+  </section>
 </template>
 
 </body>
